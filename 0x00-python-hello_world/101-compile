@@ -1,4 +1,2 @@
 #!/bin/bash
-python3 -c "import py_compile; 
-out = \"$PYFILE\" + \"c\"; 
-py_compile.compile('$PYFILE', out)"
+python3 -c "import py_compile; py_compile.compile('$PYFILE', '$PYFILE' + 'c')"
