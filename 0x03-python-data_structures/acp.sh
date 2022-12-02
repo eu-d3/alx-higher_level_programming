@@ -16,8 +16,15 @@ if [ "$file_name" != "nvm" ]; then
 		file_name=$default_file
 	fi
 	git add $file_name
-	echo "Type a brief commit message about: $file_name"
+	echo -e "Type a brief commit message about: $file_name\n
+	Alternatively, the default message is `cat comment.txt`\n
+	Type K to use the default"
 	read commit_message
+	if [ "$commit_message" == "K" ]; then
+		commit_message=`cat comment.txt`
+		echo "$commit_message is the default"
+	fi
 	git commit -m "$commit_message"
+
 fi
 ./retrieve_token.sh

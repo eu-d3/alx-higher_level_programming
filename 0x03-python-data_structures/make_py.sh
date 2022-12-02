@@ -4,7 +4,11 @@ import_modules () {
 	echo "Would you like to import any module? "
 	read modules
 	while [ "$modules" != "nvm" ]; do
-		echo -e "import $modules" >> $file_name.py
+		if [[ "$modules" == *"from"* ]]; then
+			echo "$modules" >> $file_name.py
+		else
+			echo -e "import $modules" >> $file_name.py
+		fi
 		read modules
 	done
 
@@ -16,11 +20,12 @@ import_modules () {
 add_comments () {
 	echo "Would you like to add any comments? "
 	read comment
-	if [ "$comment" != "" ]; then
+	if [ "$comment" != "nvm" ]; then
 		echo -e "\"\"\"$comment\"\"\"" >> $file_name.py
 	else 
 		echo -e "\n" >> $file_name.py
 	fi
+	echo "$comment" > comment.txt
 }
 check_style () {
 	echo -e "You might have not adhered to PEP8 regulations,\n
@@ -66,8 +71,13 @@ Type y to run any other key to skip: "
 		read response
 		if [ "$response" == "y" ]; then
 			git add $file_name.py
-			echo "Type your commit message for $file_name.py: "
+			default_message=`cat comment.txt`
+			echo -e "Type your commit message for $file_name.py: The default is set to\n $default_message"
 			read commit_message
+			if [ "$commit_message" == "K" ]; then
+				commit_message=$default_message
+				echo "$commit_message"
+			fi
 			echo "You are about to commit with the message	$commit_message"
 			read assert
 			if [ "$assert" == "y" ]; then
