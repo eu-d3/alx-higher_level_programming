@@ -5,7 +5,7 @@
 
 
 def best_score(a_dictionary):
-    high_count    = 0
+    high_count = 0
     maximum = None
     if type(a_dictionary) is dict:
         for (key, value) in a_dictionary.items():
